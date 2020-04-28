@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Route,
   Link,
   Switch,
@@ -76,22 +76,29 @@ const Footer = () => (
 
 const CreateNew = (props) => {
   const content = useField('text');
-  // const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
-  const [info, setInfo] = useState('');
+  const author = useField('text');
+  const info = useField('url');
+  const reset = useField('reset');
   const history = useHistory();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
       content: content.value,
-      author,
-      info,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
 
-    props.setNotification(content);
+    props.setNotification(content.value);
 
     history.push('/');
+  };
+  const handleReset = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    console.log('object');
+    e.target.reset();
   };
 
   return (
@@ -100,30 +107,18 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input
-            name="content"
-            value={content.value}
-            onChange={content.onChange}
-            type={content.onChange}
-          />
+          <input name="content" {...content} />
         </div>
         <div>
           author
-          <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <input name="author" {...author} />
         </div>
         <div>
           url for more info
-          <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
+          <input name="info" {...info} />
         </div>
-        <button>create</button>
+        <button type="submit" value="Create" />{' '}
+        <button type="reset" value="Reset" />
       </form>
     </div>
   );
@@ -146,7 +141,6 @@ const App = () => {
       id: '2',
     },
   ]);
-  useEffect(() => {}, [anecdotes]);
 
   const [notification, setNotification] = useState('');
 
