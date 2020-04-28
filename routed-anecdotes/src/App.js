@@ -105,6 +105,8 @@ const CreateNew = (props) => {
       votes: 0,
     });
 
+    props.handleNotification(content);
+
     history.push('/');
   };
 
@@ -161,7 +163,10 @@ const App = () => {
   ]);
 
   const [notification, setNotification] = useState('');
-
+  const handleNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => setNotification(''), 1000);
+  };
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
@@ -192,9 +197,19 @@ const App = () => {
         <Link to="/about"> about </Link>
       </div>
 
+      {notification ? (
+        <div>
+          <h4>
+            a new Anecdote <em> {notification} </em> created!
+          </h4>
+        </div>
+      ) : (
+        ''
+      )}
+
       <Switch>
         <Route path="/create">
-          <CreateNew addNew={addNew} />
+          <CreateNew addNew={addNew} handleNotification={handleNotification} />
         </Route>
         <Route path="/about">
           <About />
