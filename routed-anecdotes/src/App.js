@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -8,24 +8,7 @@ import {
   useHistory,
 } from 'react-router-dom';
 
-// const Menu = () => {
-//   const padding = {
-//     paddingRight: 5,
-//   };
-//   return (
-//     <div>
-//       <a href="#" style={padding}>
-//         anecdotes
-//       </a>
-//       <a href="#" style={padding}>
-//         create new
-//       </a>
-//       <a href="#" style={padding}>
-//         about
-//       </a>
-//     </div>
-//   );
-// };
+import { useField } from './hooks/index';
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -92,20 +75,21 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('');
+  const content = useField('text');
+  // const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
   const history = useHistory();
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
+      content: content.value,
       author,
       info,
       votes: 0,
     });
 
-    props.handleNotification(content);
+    props.setNotification(content);
 
     history.push('/');
   };
@@ -118,8 +102,9 @@ const CreateNew = (props) => {
           content
           <input
             name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={content.value}
+            onChange={content.onChange}
+            type={content.onChange}
           />
         </div>
         <div>
@@ -161,12 +146,10 @@ const App = () => {
       id: '2',
     },
   ]);
+  useEffect(() => {}, [anecdotes]);
 
   const [notification, setNotification] = useState('');
-  const handleNotification = (message) => {
-    setNotification(message);
-    setTimeout(() => setNotification(''), 1000);
-  };
+
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
@@ -199,9 +182,7 @@ const App = () => {
 
       {notification ? (
         <div>
-          <h4>
-            a new Anecdote <em> {notification} </em> created!
-          </h4>
+          <p>a new Anecdote {notification} created!</p>
         </div>
       ) : (
         ''
@@ -209,7 +190,7 @@ const App = () => {
 
       <Switch>
         <Route path="/create">
-          <CreateNew addNew={addNew} handleNotification={handleNotification} />
+          <CreateNew addNew={addNew} setNotification={setNotification} />
         </Route>
         <Route path="/about">
           <About />
