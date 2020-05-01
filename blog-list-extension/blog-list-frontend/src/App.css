@@ -1,0 +1,13 @@
+.success {
+  width: 100%;
+  height: 40px;
+}
+
+.no-message {
+  display: none;
+}
+
+.danger {
+  width: 100%;
+  height: 40px;
+}
