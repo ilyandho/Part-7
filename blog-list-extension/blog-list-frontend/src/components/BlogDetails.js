@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { updateBlog, updateBlogComents } from '../reducers/blogReducer';
+import { updateBlogComents, updateBlogLikes } from '../reducers/blogReducer';
 import useField from '../hooks/useField';
 
 import { Image, Spinner, Form, Col, Button, Card } from 'react-bootstrap';
@@ -18,10 +18,9 @@ const BlogDetails = () => {
   const dispatch = useDispatch();
   const handleLike = () => {
     const blogId = blog.id;
-    const updatedLikes = blog.likes + 1;
-    console.log(updatedLikes);
+
     // id, newObj, blogs
-    dispatch(updateBlog(blogId, { likes: updatedLikes }, blogs));
+    dispatch(updateBlogLikes(blogId, blogs));
   };
 
   const addComment = (event) => {
@@ -50,12 +49,6 @@ const BlogDetails = () => {
 
     return Math.floor(seconds) + 'secs ago';
   }
-  // const date = (dat) => {
-  //   return [new Date(dat).getTime(), Date().now()];
-  // };
-
-  // console.log(timeSince('1588258259860'));
-  // console.log(timeConverter('1588320479950'));
   if (!blog) {
     return (
       <div

@@ -5,7 +5,7 @@ import { login } from '../reducers/loginReducer';
 
 import { Form, Button, Row } from 'react-bootstrap';
 
-const LoginForm = () => {
+const LoginForm = ({ setPage }) => {
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,9 +35,16 @@ const LoginForm = () => {
         <Button
           type="submit"
           variant="primary"
+          style={{ width: '100%', margin: 'auto', marginBottom: '0.8rem' }}>
+          Login in
+        </Button>
+        <Button
+          onClick={() => setPage('signup')}
+          type="submit"
+          variant="danger"
           style={{ width: '100%', margin: 'auto' }}>
           {' '}
-          Login in
+          SignUp
         </Button>
       </Form.Group>
     </Form>

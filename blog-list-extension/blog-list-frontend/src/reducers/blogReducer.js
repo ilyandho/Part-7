@@ -16,6 +16,8 @@ const blogReducer = (state = [], action) => {
       return [];
     case 'UPDATE-COMMENT':
       return action.data;
+    case 'UPDATE-LIKE':
+      return action.data;
     default:
       return state;
   }
@@ -166,9 +168,33 @@ export const updateBlogComents = (id, comment, blogs) => {
       setTimeout(() => {
         dispatch(setMessage());
       }, 5000);
-      console.log('Failed to get the comments');
     }
   };
 };
 
+export const updateBlogLikes = (id, blogs) => {
+  return async (dispatch) => {
+    try {
+      const response = await blogService.updateLikes(id);
+
+      const updatedBlogLike = blogs.map((blog) => {
+        if (blog.id === response.id) {
+          blog.likes = response.likes;
+        }
+        return blog;
+      });
+      dispatch({
+        type: 'UPDATE-LIKE',
+        data: updatedBlogLike,
+      });
+    } catch (err) {
+      dispatch(
+        setMessage({ message: err.response.data.error, messageType: 'danger' })
+      );
+      setTimeout(() => {
+        dispatch(setMessage());
+      }, 5000);
+    }
+  };
+};
 export default blogReducer;

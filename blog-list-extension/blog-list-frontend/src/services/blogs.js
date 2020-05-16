@@ -16,9 +16,7 @@ const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   };
-  console.log('newObject', newObject);
   const response = await axios.post(baseUrl, newObject, config);
-  console.log(response.data);
   return response.data;
 };
 
@@ -38,6 +36,12 @@ const updateComments = async (id, comment) => {
   return response.data;
 };
 
+const updateLikes = async (id) => {
+  const url = `${baseUrl}${id}/likes`;
+  const response = await axios.put(url);
+  return response.data;
+};
+
 const remove = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -49,4 +53,12 @@ const remove = async (id) => {
   return response;
 };
 
-export default { getAll, create, setToken, update, remove, updateComments };
+export default {
+  getAll,
+  create,
+  setToken,
+  update,
+  remove,
+  updateComments,
+  updateLikes,
+};

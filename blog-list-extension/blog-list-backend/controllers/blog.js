@@ -158,4 +158,17 @@ blogsRouter.put('/:id/comments', async (req, res) => {
   res.status(201).json(updatedBlog);
 });
 
+blogsRouter.put('/:id/likes', async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  // Check if the 'id' is associated with any blog
+  if (!blog) {
+    return res.status(404).send('blog not found to comment on');
+  }
+
+  blog.likes = blog.likes + 1;
+
+  const updatedBlog = await blog.save();
+
+  res.status(201).json(updatedBlog);
+});
 module.exports = blogsRouter;

@@ -31,6 +31,7 @@ app.use(cors());
 app.use(express.json());
 app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
+app.use(express.static('build'));
 
 // Routes
 // To only be availed if we're in the test environment

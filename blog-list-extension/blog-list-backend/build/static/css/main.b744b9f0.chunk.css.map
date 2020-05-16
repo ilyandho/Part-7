@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,SACE,UAAW,CACX,WACF,CAEA,YACE,YACF,CAEA,QACE,UAAW,CACX,WACF","file":"main.b744b9f0.chunk.css","sourcesContent":[".success {\r\n  width: 100%;\r\n  height: 40px;\r\n}\r\n\r\n.no-message {\r\n  display: none;\r\n}\r\n\r\n.danger {\r\n  width: 100%;\r\n  height: 40px;\r\n}\r\n"]}
